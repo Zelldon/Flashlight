@@ -16,7 +16,7 @@
  */
 package de.zell.flash;
 
-import de.zell.flash.reciever.PowerButtonReciever;
+import de.zell.flash.receiver.PowerButtonReceiver;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -29,11 +29,11 @@ import android.util.Log;
  */
 public class FlashService extends Service {
 
-  private PowerButtonReciever reciever = null;
+  private PowerButtonReceiver reciever = null;
 
   @Override
   public void onCreate() {
-    reciever = new PowerButtonReciever();
+    reciever = new PowerButtonReceiver();
     Log.d(FlashService.class.getName(), getString(R.string.log_service_create));
     super.onCreate();
   }
@@ -46,7 +46,7 @@ public class FlashService extends Service {
     filter.addAction(Intent.ACTION_POWER_CONNECTED);
     filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     
-    registerReceiver(new PowerButtonReciever(), filter);
+    registerReceiver(new PowerButtonReceiver(), filter);
     Log.d(FlashService.class.getName(),  getString(R.string.log_activity_start));
     return super.onStartCommand(intent, flags, startId); 
   }

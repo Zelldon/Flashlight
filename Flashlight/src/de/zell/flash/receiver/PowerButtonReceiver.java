@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.zell.flash.reciever;
+package de.zell.flash.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,7 +31,7 @@ import java.util.Date;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class PowerButtonReciever extends BroadcastReceiver {
+public class PowerButtonReceiver extends BroadcastReceiver {
 
   private static ButtonPress press = null;
   private static Camera cam = null;
@@ -39,11 +39,11 @@ public class PowerButtonReciever extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent arg1) {
-    Log.d(PowerButtonReciever.class.getName(), context.getString(R.string.log_recieve_button));
+    Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_recieve_button));
 
     calculateValidButtonPress();
-    Log.d(PowerButtonReciever.class.getName(), press.toString());
-    Log.d(PowerButtonReciever.class.getName(), new Date().toString());
+    Log.d(PowerButtonReceiver.class.getName(), press.toString());
+    Log.d(PowerButtonReceiver.class.getName(), new Date().toString());
 
     if (press.getCount() == 3) {
       press = null;
@@ -95,7 +95,7 @@ public class PowerButtonReciever extends BroadcastReceiver {
     try {
       cam = Camera.open();
     } catch (Exception e) {
-      Log.e(PowerButtonReciever.class.getName(), e.getMessage(), e);
+      Log.e(PowerButtonReceiver.class.getName(), e.getMessage(), e);
     }
   }
 }

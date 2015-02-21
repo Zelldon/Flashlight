@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.zell.flash.reciever;
+package de.zell.flash.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,11 +27,11 @@ import de.zell.flash.R;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class BootReciever extends BroadcastReceiver {
+public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-      Log.d(BootReciever.class.getName(), arg0.getString(R.string.log_recieve_boot));
+      Log.d(BootReceiver.class.getName(), arg0.getString(R.string.log_recieve_boot));
       Intent serviceIntent = new Intent(arg0, FlashService.class);
       arg0.startService(serviceIntent);
     }
