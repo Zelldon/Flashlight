@@ -1,11 +1,12 @@
 /*
  */
-package de.zell.flash;
+package de.zell.flash.reciever;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import de.zell.flash.FlashService;
 
 /**
  *

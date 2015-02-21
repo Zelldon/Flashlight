@@ -1,6 +1,6 @@
 /*
  */
-package de.zell.flash;
+package de.zell.flash.reciever;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

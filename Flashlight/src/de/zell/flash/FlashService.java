@@ -2,6 +2,7 @@
  */
 package de.zell.flash;
 
+import de.zell.flash.reciever.PowerButtonReciever;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
