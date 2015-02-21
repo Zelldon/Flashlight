@@ -4,23 +4,24 @@
           android:versionCode="1"
           android:versionName="1.0">
   
-<!-- Allows access to the flashlight -->
-<!-- <permission android:name="android.permission.FLASHLIGHT"
-             android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
-             android:protectionLevel="normal" />-->
+  <!-- Allows access to the flashlight -->
+  <!-- <permission android:name="android.permission.FLASHLIGHT"
+  android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
+  android:protectionLevel="normal" />-->
  
- <uses-permission android:name="android.permission.CAMERA" />
- <uses-feature android:name="android.hardware.camera" />
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-feature android:name="android.hardware.camera" />
  
-<!--             android:label="@string/permlab_flashlight"
-             android:description="@string/permdesc_flashlight"-->
+  <!--             android:label="@string/permlab_flashlight"
+  android:description="@string/permdesc_flashlight"-->
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   
   <application android:label="@string/app_name"
                android:icon="@drawable/ic_launcher"
                android:allowBackup="true">
     <activity android:name="FlashMainActivity" 
-              android:label="@string/app_name" >
+              android:label="@string/app_name"
+              android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"    >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

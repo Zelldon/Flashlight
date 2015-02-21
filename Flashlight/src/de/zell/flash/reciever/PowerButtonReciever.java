@@ -23,7 +23,9 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
+import de.zell.flash.ButtonPress;
 import de.zell.flash.R;
+import java.util.Date;
 
 /**
  *
@@ -31,24 +33,69 @@ import de.zell.flash.R;
  */
 public class PowerButtonReciever extends BroadcastReceiver {
 
+  private static ButtonPress press = null;
+  private static Camera cam = null;
+  private static boolean camOn = false;
+
   @Override
   public void onReceive(Context context, Intent arg1) {
     Log.d(PowerButtonReciever.class.getName(), context.getString(R.string.log_recieve_button));
 
-    if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-      Camera cam = null;
-      try {
-        cam = Camera.open();
-      } catch (Exception e) {
-        Log.e(PowerButtonReciever.class.getName(), e.getMessage(), e);
-      }
-      if (cam != null) {
-        Parameters p = cam.getParameters();
-        p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-        cam.setParameters(p);
-        cam.startPreview();
+    calculateValidButtonPress();
+    Log.d(PowerButtonReciever.class.getName(), press.toString());
+    Log.d(PowerButtonReciever.class.getName(), new Date().toString());
 
+    if (press.getCount() == 3) {
+      press = null;
+      changeCamState(context);
+    }
+  }
+  
+  private void calculateValidButtonPress() {
+    if (press == null) {
+      press = new ButtonPress();
+    } else {
+      long firstPress = press.getFirstButtonPressedTime().getTime();
+      long now = new Date().getTime();
+      long diff = now - firstPress;
+      if (diff > 0 && diff < 2000) {
+        press.incrementPress();
+      } else {
+        press = new ButtonPress();
       }
+    }
+  }
+  
+  private void changeCamState(Context context) {
+      if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+        if (!isCamOpen()) {
+          openCam();
+        }
+
+        if (isCamOpen()) {
+          Parameters p = cam.getParameters();
+          if (!camOn) {
+            camOn = true;
+            p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+          } else {
+            camOn = false;
+            p.setFlashMode(Parameters.FLASH_MODE_OFF);
+          }
+          cam.setParameters(p);
+          cam.startPreview();
+        }
+      }
+  }
+
+  private boolean isCamOpen() {
+    return cam != null;
+  }
+
+  private void openCam() {
+    try {
+      cam = Camera.open();
+    } catch (Exception e) {
+      Log.e(PowerButtonReciever.class.getName(), e.getMessage(), e);
     }
   }
 }
