@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Flashlight</string>
     
-    <string name="service_started">Started service!</string>
+    <string name="service_started">Started Flashlight service!</string>
     
     <!--LOGS-->
     <string name="log_activity_start">Started activity.</string>
