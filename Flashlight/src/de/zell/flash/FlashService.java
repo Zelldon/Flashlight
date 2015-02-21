@@ -20,7 +20,7 @@ public class FlashService extends Service {
   @Override
   public void onCreate() {
     reciever = new PowerButtonReciever();
-    Log.d(FlashService.class.getName(), "Service - onStartCommand");
+    Log.d(FlashService.class.getName(), getString(R.string.log_service_create));
     super.onCreate();
   }
 
@@ -33,8 +33,8 @@ public class FlashService extends Service {
     filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     
     registerReceiver(new PowerButtonReciever(), filter);
-    Log.d(FlashService.class.getName(), "Service - onStartCommand");
-    return super.onStartCommand(intent, flags, startId); //To change body of generated methods, choose Tools | Templates.
+    Log.d(FlashService.class.getName(),  getString(R.string.log_activity_start));
+    return super.onStartCommand(intent, flags, startId); 
   }
 
   @Override

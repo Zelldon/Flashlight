@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FlashMainActivity</string>
+    <string name="app_name">Flashlight</string>
+    
+    <string name="service_started">Started service!</string>
+    
+    <!--LOGS-->
+    <string name="log_activity_start">Started activity.</string>
+    <string name="log_service_create">Created service.</string>
+    <string name="log_service_start">Started service.</string>
+    <string name="log_recieve_boot">Received boot broadcast.</string>
+    <string name="log_recieve_button">Received power button pressed.</string>
 </resources>

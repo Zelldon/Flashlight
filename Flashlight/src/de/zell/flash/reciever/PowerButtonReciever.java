@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
-import android.widget.Toast;
+import de.zell.flash.R;
 
 /**
  *
@@ -19,7 +19,7 @@ public class PowerButtonReciever extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent arg1) {
-    Log.e(PowerButtonReciever.class.getName(), "Power button is pressed.");
+    Log.d(PowerButtonReciever.class.getName(), context.getString(R.string.log_recieve_button));
 
     if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
       Camera cam = null;
@@ -36,6 +36,5 @@ public class PowerButtonReciever extends BroadcastReceiver {
 
       }
     }
-    Toast.makeText(context, "power button clicked", Toast.LENGTH_LONG).show();
   }
 }
