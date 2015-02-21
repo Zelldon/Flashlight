@@ -93,10 +93,12 @@ public class PowerButtonReceiver extends BroadcastReceiver {
   }
 
   private void releaseCam(Context context) {
-    Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_released_cam));
-    cam.stopPreview();
-    cam.release();
-    cam = null;
+    if (cam != null) {
+      Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_released_cam));
+      cam.stopPreview();
+      cam.release();
+      cam = null;
+    }
   }
 
   private boolean isCamOpen() {
