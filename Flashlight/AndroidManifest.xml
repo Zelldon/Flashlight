@@ -4,6 +4,7 @@
           android:versionCode="1"
           android:versionName="1.0">
   
+  <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
   <!-- Allows access to the flashlight -->
   <!-- <permission android:name="android.permission.FLASHLIGHT"
   android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
@@ -21,7 +22,7 @@
                android:allowBackup="true">
     <activity android:name="FlashMainActivity" 
               android:label="@string/app_name"
-              android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"    >
+              android:theme="@android:style/Theme.NoDisplay"    >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
