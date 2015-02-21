@@ -39,7 +39,7 @@ public class PowerButtonReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent arg1) {
-    Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_recieve_button));
+    Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_receive_button));
 
     calculateValidButtonPress();
     Log.d(PowerButtonReceiver.class.getName(), press.toString());
@@ -50,7 +50,7 @@ public class PowerButtonReceiver extends BroadcastReceiver {
       changeCamState(context);
     }
   }
-  
+
   private void calculateValidButtonPress() {
     if (press == null) {
       press = new ButtonPress();
@@ -65,26 +65,37 @@ public class PowerButtonReceiver extends BroadcastReceiver {
       }
     }
   }
-  
-  private void changeCamState(Context context) {
-      if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-        if (!isCamOpen()) {
-          openCam();
-        }
 
-        if (isCamOpen()) {
-          Parameters p = cam.getParameters();
-          if (!camOn) {
-            camOn = true;
-            p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-          } else {
-            camOn = false;
-            p.setFlashMode(Parameters.FLASH_MODE_OFF);
-          }
-          cam.setParameters(p);
-          cam.startPreview();
-        }
+  private void changeCamState(Context context) {
+    if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+      if (!isCamOpen()) {
+        openCam();
       }
+
+      if (isCamOpen()) {
+        Parameters p = cam.getParameters();
+        cam.stopPreview();
+        if (!camOn) {
+          camOn = true;
+          p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+        } else {
+          camOn = false;
+          p.setFlashMode(Parameters.FLASH_MODE_OFF);
+        }
+        cam.setParameters(p);
+        cam.startPreview();
+        releaseCam(context);
+      }
+    }
+  }
+
+  private void releaseCam(Context context) {
+    if (!camOn) {
+      Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_released_cam));
+      cam.stopPreview();
+      cam.release();
+      cam = null;
+    }
   }
 
   private boolean isCamOpen() {

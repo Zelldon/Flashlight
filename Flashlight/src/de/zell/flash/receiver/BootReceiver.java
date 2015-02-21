@@ -31,7 +31,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-      Log.d(BootReceiver.class.getName(), arg0.getString(R.string.log_recieve_boot));
+      Log.d(BootReceiver.class.getName(), arg0.getString(R.string.log_receive_boot));
       Intent serviceIntent = new Intent(arg0, FlashService.class);
       arg0.startService(serviceIntent);
     }

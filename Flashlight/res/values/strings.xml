@@ -8,6 +8,7 @@
     <string name="log_activity_start">Started activity.</string>
     <string name="log_service_create">Created service.</string>
     <string name="log_service_start">Started service.</string>
-    <string name="log_recieve_boot">Received boot broadcast.</string>
-    <string name="log_recieve_button">Received power button pressed.</string>
+    <string name="log_receive_boot">Received boot broadcast.</string>
+    <string name="log_receive_button">Received power button pressed.</string>
+    <string name="log_released_cam">Released cam.</string>
 </resources>
