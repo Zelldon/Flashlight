@@ -19,10 +19,8 @@ package de.zell.flash.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.util.Log;
+import de.zell.camera.CameraApiFactory;
 import de.zell.flash.ButtonPress;
 import de.zell.flash.R;
 import java.util.Date;
@@ -34,9 +32,7 @@ import java.util.Date;
 public class PowerButtonReceiver extends BroadcastReceiver {
 
   private static ButtonPress press = null;
-  private static Camera cam = null;
-  private static boolean camOn = false;
-
+  
   @Override
   public void onReceive(Context context, Intent arg1) {
     Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_receive_button));
@@ -47,7 +43,7 @@ public class PowerButtonReceiver extends BroadcastReceiver {
 
     if (press.getCount() == 3) {
       press = null;
-      changeCamState(context);
+      CameraApiFactory.produceCameraApi().changeCamState(context);
     }
   }
 
@@ -66,50 +62,4 @@ public class PowerButtonReceiver extends BroadcastReceiver {
     }
   }
 
-  private void changeCamState(Context context) {
-    if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-      if (!isCamOpen()) {
-        openCam();
-      }
-
-      if (isCamOpen()) {
-        Parameters p = cam.getParameters();
-        cam.stopPreview();
-        if (!camOn) {
-          camOn = true;
-          p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-        } else {
-          camOn = false;
-          p.setFlashMode(Parameters.FLASH_MODE_OFF);
-        }
-        cam.setParameters(p);
-        cam.startPreview();
-
-        if (!camOn) {
-          releaseCam(context);
-        }
-      }
-    }
-  }
-
-  private void releaseCam(Context context) {
-    if (cam != null) {
-      Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_released_cam));
-      cam.stopPreview();
-      cam.release();
-      cam = null;
-    }
-  }
-
-  private boolean isCamOpen() {
-    return cam != null;
-  }
-
-  private void openCam() {
-    try {
-      cam = Camera.open();
-    } catch (Exception e) {
-      Log.e(PowerButtonReceiver.class.getName(), e.getMessage(), e);
-    }
-  }
 }
