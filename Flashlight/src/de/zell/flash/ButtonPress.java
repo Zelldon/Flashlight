@@ -19,27 +19,55 @@ package de.zell.flash;
 import java.util.Date;
 
 /**
- *
+ * Represents the ButtonPress class which was used to count how
+ * often a button was pressed.
+ * 
+ * Contains also the date of the first press.
+ * 
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class ButtonPress {
   
+  /**
+   * The count of the pressed buttons.
+   */
   private Integer count;
+  
+  /**
+   * The time of the first pressed button.
+   */
   private final Date firstButtonPressedTime;
 
+  /**
+   * The default ctor which initializes the count with 1 and the 
+   * date with the current time.
+   */
   public ButtonPress() {
     count = 1;
     firstButtonPressedTime = new Date();
   }
 
+  /**
+   * Returns the button pressed count.
+   * 
+   * @return the count
+   */
   public Integer getCount() {
     return count;
   }
 
+  /**
+   * Returns the time of the first pressed button
+   * 
+   * @return the time
+   */
   public Date getFirstButtonPressedTime() {
     return firstButtonPressedTime;
   }
   
+  /**
+   * Increments the count of pressed buttons.
+   */
   public void incrementPress() {
     count++;
   }

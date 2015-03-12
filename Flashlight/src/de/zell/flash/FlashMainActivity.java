@@ -23,6 +23,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Represents the main activity of the application to create the flash service
+ * which also starts the power button receiver.
+ * 
+ * The application contains no content and finishes after starting the service.
+ * 
+ * @author Christopher Zell <zelldon91@googlemail.com>
+ */
 public class FlashMainActivity extends Activity {
 
   @Override
