@@ -5,16 +5,8 @@
           android:versionName="1.0">
   
   <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="21"/>
-  <!-- Allows access to the flashlight -->
-  <!-- <permission android:name="android.permission.FLASHLIGHT"
-  android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
-  android:protectionLevel="normal" />-->
- 
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-feature android:name="android.hardware.camera" />
- 
-  <!--             android:label="@string/permlab_flashlight"
-  android:description="@string/permdesc_flashlight"-->
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   
   <application android:label="@string/app_name"
@@ -31,11 +23,6 @@
     <service android:name=".FlashService"  android:enabled="true"/>
     <receiver android:name=".receiver.PowerButtonReceiver">
       <intent-filter>
-        <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-        <!--<action android:name="android.intent.action.ACTION_SHUTDOWN"/>-->
-        <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
-        <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
-
         <action android:name="android.intent.action.SCREEN_OFF"/>
         <action android:name="android.intent.action.SCREEN_ON"/>
       </intent-filter>
