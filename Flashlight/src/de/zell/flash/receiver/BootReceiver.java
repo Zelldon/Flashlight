@@ -24,7 +24,9 @@ import de.zell.flash.FlashService;
 import de.zell.flash.R;
 
 /**
- *
+ * Represents the boot receiver which will be called if the device
+ * was booted. The receiver starts the flash service.
+ * 
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class BootReceiver extends BroadcastReceiver {

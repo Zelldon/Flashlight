@@ -26,12 +26,24 @@ import de.zell.flash.R;
 import java.util.Date;
 
 /**
- *
+ * The power button receiver which will be called if the power button was pressed.
+ * After 3 times of pressing the power button the flash light should be toggled
+ * but only if the button was pressed in a valid pressing interval.
+ * The interval is defined by the BUTTON_PRESS_INTERVAL field.
+ * 
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class PowerButtonReceiver extends BroadcastReceiver {
 
+  /**
+   * The button press object which counts the button press.
+   */
   private static ButtonPress press = null;
+  
+  /**
+   * Defines the valid interval for the button pressing.
+   */
+  private static final Long BUTTON_PRESS_INTERVAL = 2000l;
   
   @Override
   public void onReceive(Context context, Intent arg1) {
@@ -47,6 +59,16 @@ public class PowerButtonReceiver extends BroadcastReceiver {
     }
   }
 
+  /**
+   * Calculates the valid button press. 
+   * If the button press intent was inside the defined interval the
+   * count will be increment if not the button press object will be 
+   * reseted. 
+   * 
+   * The firstButtonPressedTime and BUTTON_PRESS_INTERVAL will be used 
+   * to determine if the button press was in the defined interval.
+   * @see ButtonPress
+   */
   private void calculateValidButtonPress() {
     if (press == null) {
       press = new ButtonPress();
@@ -54,7 +76,7 @@ public class PowerButtonReceiver extends BroadcastReceiver {
       long firstPress = press.getFirstButtonPressedTime().getTime();
       long now = new Date().getTime();
       long diff = now - firstPress;
-      if (diff > 0 && diff < 2000) {
+      if (diff > 0 && diff < BUTTON_PRESS_INTERVAL) {
         press.incrementPress();
       } else {
         press = new ButtonPress();
