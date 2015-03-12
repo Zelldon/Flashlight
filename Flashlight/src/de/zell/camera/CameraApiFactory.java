@@ -17,7 +17,7 @@
 package de.zell.camera;
 
 import android.os.Build;
-import de.zell.camera.api.CameraOldApi;
+import de.zell.camera.api.CameraFlashOldApi;
 import de.zell.camera.api2.CameraNewApi;
 
 /**
@@ -35,7 +35,7 @@ public class CameraApiFactory {
    */
   public static CameraApi produceCameraApi() {
     if (Build.VERSION.SDK_INT < 21) {
-      return new CameraOldApi();
+      return new CameraFlashOldApi();
     } else {
       return new CameraNewApi();
     }
