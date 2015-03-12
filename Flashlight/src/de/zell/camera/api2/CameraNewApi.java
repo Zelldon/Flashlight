@@ -20,17 +20,19 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
 import de.zell.camera.CameraApi;
 import de.zell.flash.receiver.PowerButtonReceiver;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -61,6 +63,9 @@ public class CameraNewApi implements CameraApi {
   //====================================
   //==============API 21================
   //====================================
+  private static SurfaceTexture surfaceTexture = null;
+  private static Surface surface = null;
+  private static CameraManager manager = null;
   private static CameraDevice cam = null;
   private static CameraCaptureSession camSession = null;
   private static final CameraDevice.StateCallback callBack = new CameraDevice.StateCallback() {
@@ -85,6 +90,10 @@ public class CameraNewApi implements CameraApi {
     }
   };
 
+  /**
+   * Changes the 
+   * @param context 
+   */
   public void changeCamState(Context context) {
     if (cam == null) {
       startBackground();
@@ -96,7 +105,7 @@ public class CameraNewApi implements CameraApi {
   }
 
   private static void openCam(Context context) {
-    CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+    manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     try {
       String cams[] = manager.getCameraIdList();
       if (cams.length > 0 && backgroundHandler != null) {
@@ -121,18 +130,48 @@ public class CameraNewApi implements CameraApi {
 
   }
 
+  private static Size getSmallestSize(String cameraId) throws CameraAccessException {
+    Size[] outputSizes = manager.getCameraCharacteristics(cameraId)
+            .get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+            .getOutputSizes(SurfaceTexture.class);
+    if (outputSizes == null || outputSizes.length == 0) {
+      throw new IllegalStateException(
+              "Camera " + cameraId + "doesn't support any outputSize.");
+    }
+    Size chosen = outputSizes[0];
+    for (Size s : outputSizes) {
+      if (chosen.getWidth() >= s.getWidth() && chosen.getHeight() >= s.getHeight()) {
+        chosen = s;
+      }
+    }
+    return chosen;
+  }
+
+  private static ArrayList<Surface> createSurfaces() throws CameraAccessException {
+    if (surface == null) {
+      surfaceTexture = new SurfaceTexture(0);
+      Size size = getSmallestSize(cam.getId());
+      surfaceTexture.setDefaultBufferSize(size.getWidth(), size.getHeight());
+      surface = new Surface(surfaceTexture);
+    }
+    ArrayList<Surface> outputs = new ArrayList<Surface>(1);
+    outputs.add(surface);
+    return outputs;
+  }
+
   private static void configureCam() {
     if (cam != null) {
       try {
-        CaptureRequest.Builder builder = cam.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-        builder.setTag(CaptureRequest.FLASH_MODE_TORCH);
-        final CaptureRequest req = builder.build();
-        Surface s = new Surface(new SurfaceTexture(0));
-        cam.createCaptureSession(Arrays.asList(s), new CameraCaptureSession.StateCallback() {
+        cam.createCaptureSession(createSurfaces(), new CameraCaptureSession.StateCallback() {
 
           @Override
           public void onConfigured(CameraCaptureSession session) {
             try {
+              CaptureRequest.Builder builder = cam.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+              //builder.setTag(CaptureRequest.FLASH_MODE_TORCH);
+              builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+              builder.addTarget(surface);
+              CaptureRequest req = builder.build();
               session.setRepeatingRequest(req, null, backgroundHandler);
               //session.capture(req, null, null);
             } catch (CameraAccessException ex) {
