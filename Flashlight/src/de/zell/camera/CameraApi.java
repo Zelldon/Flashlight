@@ -19,9 +19,17 @@ package de.zell.camera;
 import android.content.Context;
 
 /**
- *
+ * Represents the camera api which will be used of the application.
+ * The changeCamState method should toggle the camera state (on/off)
+ * 
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public interface CameraApi {
+  
+  /**
+   * The method toggles the camera state to on or off.
+   * 
+   * @param context the application context.
+   */
   public void changeCamState(Context context);
 }
