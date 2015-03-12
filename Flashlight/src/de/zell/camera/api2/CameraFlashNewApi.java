@@ -252,7 +252,6 @@ public class CameraFlashNewApi implements CameraApi {
           public void onConfigured(CameraCaptureSession session) {
             try {
               CaptureRequest.Builder builder = cam.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-              //builder.setTag(CaptureRequest.FLASH_MODE_TORCH);
               builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
               builder.addTarget(surface);
               CaptureRequest req = builder.build();
