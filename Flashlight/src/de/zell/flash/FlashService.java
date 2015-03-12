@@ -24,11 +24,17 @@ import android.os.IBinder;
 import android.util.Log;
 
 /**
- *
+ * Represents the flash service which will be started by the main 
+ * activity or by the boot receiver. It registers the power button
+ * receiver which should toggle the flash light.
+ * 
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class FlashService extends Service {
 
+  /**
+   * The power button receiver which will be registered by the service.
+   */
   private PowerButtonReceiver reciever = null;
 
   @Override
@@ -43,8 +49,6 @@ public class FlashService extends Service {
     IntentFilter filter = new IntentFilter();
     filter.addAction(Intent.ACTION_SCREEN_OFF);
     filter.addAction(Intent.ACTION_SCREEN_ON);
-    filter.addAction(Intent.ACTION_POWER_CONNECTED);
-    filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     
     registerReceiver(new PowerButtonReceiver(), filter);
     Log.d(FlashService.class.getName(),  getString(R.string.log_activity_start));
