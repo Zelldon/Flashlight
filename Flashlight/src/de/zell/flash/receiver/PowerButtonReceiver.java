@@ -45,6 +45,11 @@ public class PowerButtonReceiver extends BroadcastReceiver {
    */
   private static final Long BUTTON_PRESS_INTERVAL = 2000l;
   
+  /**
+   * Defines the button press count on which the camera state should be changed.
+   */
+  private static final int BUTTON_PRESS_COUNT = 3;
+  
   @Override
   public void onReceive(Context context, Intent arg1) {
     Log.d(PowerButtonReceiver.class.getName(), context.getString(R.string.log_receive_button));
@@ -53,7 +58,7 @@ public class PowerButtonReceiver extends BroadcastReceiver {
     Log.d(PowerButtonReceiver.class.getName(), press.toString());
     Log.d(PowerButtonReceiver.class.getName(), new Date().toString());
 
-    if (press.getCount() == 3) {
+    if (press.getCount() == BUTTON_PRESS_COUNT) {
       press = null;
       CameraApiFactory.produceCameraApi().changeCamState(context);
     }
